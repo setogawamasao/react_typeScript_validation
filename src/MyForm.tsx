@@ -1,5 +1,25 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { ValidationOptions, useForm } from "react-hook-form";
+
+const setValidationOptions = (
+  isRequired: boolean,
+  hasMaxLength: boolean
+): ValidationOptions => {
+  const validationOptions: ValidationOptions = {};
+
+  if (isRequired) {
+    validationOptions.required = "required input";
+  }
+
+  if (hasMaxLength) {
+    validationOptions.maxLength = {
+      value: 3,
+      message: "max length is 3 characters",
+    };
+  }
+
+  return validationOptions;
+};
 
 const MyForm = () => {
   const { register, handleSubmit, errors, reset, formState } = useForm({
@@ -12,20 +32,29 @@ const MyForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        name="name"
-        type="text"
-        ref={register({
-          required: "必須項目です！",
-          maxLength: {
-            value: 3,
-            message: "3文字以内で指定してください",
-          },
-        })}
-      />
-      <input type="submit" value="登録" />
-      {/* error message area */}
-      {errors.name && <div>{errors.name.message}</div>}
+      <div>
+        <label>input1:</label>
+        <input
+          name="input1"
+          type="text"
+          ref={register(setValidationOptions(true, false))}
+        />
+        {/* error message area */}
+        {errors.input1 && <span>{errors.input1.message}</span>}
+      </div>
+      <div>
+        <label>input2:</label>
+        <input
+          name="input2"
+          type="text"
+          ref={register(setValidationOptions(false, true))}
+        />
+        {/* error message area */}
+        {errors.input2 && <span>{errors.input2.message}</span>}
+      </div>
+      <div>
+        <input type="submit" value="submit" />
+      </div>
     </form>
   );
 };

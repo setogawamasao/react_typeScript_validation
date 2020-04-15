@@ -4,7 +4,7 @@ import MyForm from "./MyForm";
 function App() {
   return (
     <div>
-      <h3>フォーム画面</h3>
+      <h3>React hooks form sample</h3>
       <MyForm />
     </div>
   );
